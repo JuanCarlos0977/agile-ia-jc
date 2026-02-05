@@ -29,8 +29,11 @@
 ## Tareas
 | Código | Nombre |
 |--------|--------|
-| TK-002-01 | ... |
-| TK-002-02 | ... |
-
+| TK-002-01 | hacer que cada card del catalogo se clickable |
+| TK-002-02 | crear evento que capture el id de la fruta y lo envie a la pagina detalle |
+| TK-002-03 | crear pagina nueva para detalles de una fruta |
+| TK-002-04 | crear un componente de detalle de fruta con nombre, precio e imagen de la frura |
+| TK-002-05 | crear boton de volver al catalogo |
+| TK-002-06 | crear test para comprobar la funcionalidad |
 
 
