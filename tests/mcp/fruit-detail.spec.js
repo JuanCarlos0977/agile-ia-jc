@@ -27,6 +27,8 @@ test.describe('Fruit Detail Page E2E', () => {
     await expect(page.locator('.detail-price')).toBeVisible()
     await expect(page.locator('.detail-image')).toBeVisible()
     await expect(page.locator('.back-button')).toBeVisible()
+    await expect(page.locator('.breadcrumb')).toBeVisible()
+    await expect(page.locator('.stars')).toBeVisible()
   })
 
   test('should return to catalog when clicking back button', async ({ page }) => {
@@ -43,10 +45,11 @@ test.describe('Fruit Detail Page E2E', () => {
     expect(page.url()).toBe('http://localhost:5173/')
   })
 
-  test('should show loading state initially', async ({ page }) => {
-    await page.goto('http://localhost:5173/fruit-detail.html?id=1')
+  test('should show error state for invalid fruit', async ({ page }) => {
+    await page.goto('http://localhost:5173/fruit-detail.html?id=999')
+    await page.waitForLoadState('networkidle')
     
-    await expect(page.locator('.loading')).toBeVisible()
-    await expect(page.locator('.loading')).toHaveText('Cargando detalles de la fruta...')
+    await expect(page.locator('.error')).toBeVisible()
+    await expect(page.locator('.error-text')).toHaveText('Fruta no encontrada')
   })
 })
