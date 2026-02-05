@@ -10,6 +10,7 @@ describe('FruitCard Component', () => {
     element.setAttribute('name', 'Manzana')
     element.setAttribute('price', '2.50')
     element.setAttribute('image', 'https://example.com/manzana.jpg')
+    element.setAttribute('data-id', '123')
     document.body.appendChild(element)
   })
 
@@ -82,5 +83,46 @@ describe('FruitCard Component', () => {
     const style = element.shadowRoot.querySelector('style')
     expect(style.textContent).toContain('width: 200px')
     expect(style.textContent).toContain('height: 200px')
+  })
+
+  it('should have cursor pointer style for interactivity', () => {
+    const style = element.shadowRoot.querySelector('style')
+    expect(style.textContent).toContain('cursor: pointer')
+  })
+
+  it('should emit fruit-click event when clicked', () => {
+    let eventData = null
+    element.addEventListener('fruit-click', (event) => {
+      eventData = event.detail
+    })
+
+    const card = element.shadowRoot.querySelector('.card')
+    card.click()
+
+    expect(eventData).toBeTruthy()
+    expect(eventData.fruitId).toBe('123')
+    expect(eventData.name).toBe('Manzana')
+  })
+
+  it('should include fruit id in event detail', () => {
+    let fruitId = null
+    element.addEventListener('fruit-click', (event) => {
+      fruitId = event.detail.fruitId
+    })
+
+    element.click()
+
+    expect(fruitId).toBe('123')
+  })
+
+  it('should include fruit name in event detail', () => {
+    let fruitName = null
+    element.addEventListener('fruit-click', (event) => {
+      fruitName = event.detail.name
+    })
+
+    element.click()
+
+    expect(fruitName).toBe('Manzana')
   })
 })

@@ -9,6 +9,7 @@ class FruitCatalog extends HTMLElement {
 
   connectedCallback() {
     this.render()
+    this.addEventListener('fruit-click', this.handleFruitClick.bind(this))
   }
 
   set fruits(value) {
@@ -18,6 +19,15 @@ class FruitCatalog extends HTMLElement {
 
   get fruits() {
     return this._fruits
+  }
+
+  handleFruitClick(event) {
+    const { fruitId, name } = event.detail
+    
+    this.dispatchEvent(new CustomEvent('fruit-selected', {
+      detail: { fruitId, name },
+      bubbles: true
+    }))
   }
 
   render() {
@@ -37,6 +47,7 @@ class FruitCatalog extends HTMLElement {
             name="${fruit.nombre}"
             price="${fruit.precio}"
             image="${fruit.imagen}"
+            data-id="${fruit.id}"
           ></fruit-card>
         `).join('')}
       </div>

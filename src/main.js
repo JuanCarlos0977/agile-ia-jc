@@ -11,9 +11,17 @@ async function initApp() {
     const fruits = await fetchFruits()
     const sortedFruits = sortFruitsAlphabetically(fruits)
     catalog.fruits = sortedFruits
+    
+    catalog.addEventListener('fruit-selected', handleFruitSelection)
   } catch (error) {
     console.error('Error loading fruits:', error)
   }
+}
+
+function handleFruitSelection(event) {
+  const { fruitId, name } = event.detail
+  console.log(`Fruit selected: ${name} (ID: ${fruitId})`)
+  
 }
 
 document.addEventListener('DOMContentLoaded', initApp)
