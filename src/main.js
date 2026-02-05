@@ -14,6 +14,11 @@ async function initApp() {
   } catch (error) {
     console.error('Error loading fruits:', error)
   }
+
+  catalog.addEventListener('fruit-selected', (event) => {
+    const { id } = event.detail
+    window.location.href = `/fruit-detail.html?id=${id}`
+  })
 }
 
 document.addEventListener('DOMContentLoaded', initApp)

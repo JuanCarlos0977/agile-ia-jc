@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest'
+import { describe, it, expect, beforeEach, vi } from 'vitest'
 import './fruit-card.js'
 
 describe('FruitCard Component', () => {
@@ -7,6 +7,7 @@ describe('FruitCard Component', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
     element = document.createElement('fruit-card')
+    element.setAttribute('id', '1')
     element.setAttribute('name', 'Manzana')
     element.setAttribute('price', '2.50')
     element.setAttribute('image', 'https://example.com/manzana.jpg')
@@ -82,5 +83,34 @@ describe('FruitCard Component', () => {
     const style = element.shadowRoot.querySelector('style')
     expect(style.textContent).toContain('width: 200px')
     expect(style.textContent).toContain('height: 200px')
+  })
+
+  it('should have cursor pointer style', () => {
+    const style = element.shadowRoot.querySelector('style')
+    expect(style.textContent).toContain('cursor: pointer')
+  })
+
+  it('should have hover effect', () => {
+    const style = element.shadowRoot.querySelector('style')
+    expect(style.textContent).toContain('.card:hover')
+    expect(style.textContent).toContain('transform: translateY(-4px)')
+  })
+
+  it('should dispatch fruit-selected event when card is clicked', () => {
+    const spy = vi.fn()
+    element.addEventListener('fruit-selected', spy)
+    
+    const card = element.shadowRoot.querySelector('.card')
+    card.click()
+    
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        detail: { id: '1', name: 'Manzana' }
+      })
+    )
+  })
+
+  it('should observe id attribute', () => {
+    expect(element.constructor.observedAttributes).toContain('id')
   })
 })

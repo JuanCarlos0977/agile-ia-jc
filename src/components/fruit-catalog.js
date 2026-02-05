@@ -34,6 +34,7 @@ class FruitCatalog extends HTMLElement {
       <div class="catalog">
         ${this._fruits.map(fruit => `
           <fruit-card
+            id="${fruit.id}"
             name="${fruit.nombre}"
             price="${fruit.precio}"
             image="${fruit.imagen}"
@@ -41,6 +42,17 @@ class FruitCatalog extends HTMLElement {
         `).join('')}
       </div>
     `
+
+    const cards = this.shadowRoot.querySelectorAll('fruit-card')
+    cards.forEach(card => {
+      card.addEventListener('fruit-selected', (event) => {
+        this.dispatchEvent(new CustomEvent('fruit-selected', {
+          detail: event.detail,
+          bubbles: true,
+          composed: true
+        }))
+      })
+    })
   }
 }
 

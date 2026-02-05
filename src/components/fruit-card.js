@@ -5,7 +5,7 @@ class FruitCard extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['name', 'price', 'image']
+    return ['name', 'price', 'image', 'id']
   }
 
   connectedCallback() {
@@ -27,6 +27,7 @@ class FruitCard extends HTMLElement {
     const name = this.getAttribute('name') || ''
     const price = this.getAttribute('price') || '0'
     const image = this.getAttribute('image') || ''
+    const id = this.getAttribute('id') || ''
     const formattedPrice = this.formatPrice(price)
     const fallbackImage = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200" viewBox="0 0 200 200"><rect fill="#e0e0e0" width="200" height="200"/><text x="100" y="100" text-anchor="middle" fill="#999" font-size="40">🍎</text></svg>')
 
@@ -39,6 +40,13 @@ class FruitCard extends HTMLElement {
           border-radius: 8px;
           overflow: hidden;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          cursor: pointer;
+          transition: transform 0.2s ease;
+        }
+
+        .card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
 
         .card-image {
@@ -76,6 +84,15 @@ class FruitCard extends HTMLElement {
         <span class="price">${formattedPrice} &euro;/kg</span>
       </div>
     `
+
+    const card = this.shadowRoot.querySelector('.card')
+    card.addEventListener('click', () => {
+      this.dispatchEvent(new CustomEvent('fruit-selected', {
+        detail: { id, name },
+        bubbles: true,
+        composed: true
+      }))
+    })
   }
 }
 

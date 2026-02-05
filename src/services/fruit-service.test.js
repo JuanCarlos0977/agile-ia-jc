@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { fetchFruits, sortFruitsAlphabetically } from './fruit-service.js'
+import { fetchFruits, sortFruitsAlphabetically, fetchFruitById } from './fruit-service.js'
 
 describe('FruitService', () => {
   describe('fetchFruits', () => {
@@ -83,6 +83,33 @@ describe('FruitService', () => {
       const sorted = sortFruitsAlphabetically(fruits)
       expect(sorted.length).toBe(1)
       expect(sorted[0].nombre).toBe('Manzana')
+    })
+  })
+
+  describe('fetchFruitById', () => {
+    beforeEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    it('should fetch fruit by ID from API', async () => {
+      const mockFruit = { id: 1, nombre: 'Manzana', precio: 2.50, imagen: 'url1' }
+
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: true,
+        json: () => Promise.resolve(mockFruit)
+      })
+
+      const result = await fetchFruitById('1')
+      expect(result).toEqual(mockFruit)
+      expect(fetch).toHaveBeenCalledWith('http://localhost:3100/frutas/1')
+    })
+
+    it('should throw error when fruit not found', async () => {
+      global.fetch = vi.fn().mockResolvedValue({
+        ok: false
+      })
+
+      await expect(fetchFruitById('999')).rejects.toThrow('Error fetching fruit details')
     })
   })
 })
