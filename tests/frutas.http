@@ -1,0 +1,11 @@
+### Variables
+@baseUrl = http://localhost:3100
+
+### Obtener todas las frutas
+GET {{baseUrl}}/frutas
+
+### Obtener una fruta por ID
+GET {{baseUrl}}/frutas/1
+
+### Obtener otra fruta por ID
+GET {{baseUrl}}/frutas/25

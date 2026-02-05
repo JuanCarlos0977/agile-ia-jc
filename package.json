@@ -1,0 +1,36 @@
+{
+  "name": "ejemplo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "jsonserver": "json-server --watch server/db.json --port 3100",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:ui": "vitest --ui",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:install": "playwright install",
+    "test:mcp": "playwright test --config=playwright-mcp.config.js",
+    "test:mcp:ui": "playwright test --config=playwright-mcp.config.js --ui",
+    "test:all": "npm run test:run && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/mcp": "^0.0.61",
+    "@playwright/test": "^1.58.0",
+    "@vitest/ui": "^4.0.18",
+    "happy-dom": "^20.4.0",
+    "vite": "npm:rolldown-vite@7.2.5",
+    "vitest": "^4.0.18"
+  },
+  "dependencies": {
+    "json-server": "^0.17.4"
+  },
+  "overrides": {
+    "vite": "npm:rolldown-vite@7.2.5"
+  }
+}
