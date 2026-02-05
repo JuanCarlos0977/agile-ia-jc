@@ -5,11 +5,12 @@ class FruitCard extends HTMLElement {
   }
 
   static get observedAttributes() {
-    return ['name', 'price', 'image']
+    return ['name', 'price', 'image', 'fruit-id']
   }
 
   connectedCallback() {
     this.render()
+    this.addEventListener('click', this.handleClick.bind(this))
   }
 
   attributeChangedCallback() {
@@ -21,6 +22,20 @@ class FruitCard extends HTMLElement {
   formatPrice(price) {
     const num = parseFloat(price) || 0
     return num.toFixed(2)
+  }
+
+  handleClick() {
+    const event = new CustomEvent('fruitClick', {
+      bubbles: true,
+      composed: true,
+      detail: {
+        id: this.getAttribute('fruit-id'),
+        name: this.getAttribute('name'),
+        price: this.getAttribute('price'),
+        image: this.getAttribute('image')
+      }
+    })
+    this.dispatchEvent(event)
   }
 
   render() {
@@ -39,6 +54,13 @@ class FruitCard extends HTMLElement {
           border-radius: 8px;
           overflow: hidden;
           box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+          cursor: pointer;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
         }
 
         .card-image {

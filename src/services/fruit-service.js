@@ -13,3 +13,11 @@ export function sortFruitsAlphabetically(fruits) {
     a.nombre.localeCompare(b.nombre, 'es', { sensitivity: 'base' })
   )
 }
+
+export async function getFruitById(id) {
+  const response = await fetch(`${API_BASE_URL}/frutas/${id}`)
+  if (!response.ok) {
+    throw new Error(`Error fetching fruit with id ${id}`)
+  }
+  return response.json()
+}

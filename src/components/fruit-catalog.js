@@ -9,6 +9,7 @@ class FruitCatalog extends HTMLElement {
 
   connectedCallback() {
     this.render()
+    this.addEventListener('fruitClick', this.handleFruitClick.bind(this))
   }
 
   set fruits(value) {
@@ -18,6 +19,13 @@ class FruitCatalog extends HTMLElement {
 
   get fruits() {
     return this._fruits
+  }
+
+  handleFruitClick(event) {
+    const { id } = event.detail
+    if (id) {
+      window.location.hash = `#/detalle/${id}`
+    }
   }
 
   render() {
@@ -34,6 +42,7 @@ class FruitCatalog extends HTMLElement {
       <div class="catalog">
         ${this._fruits.map(fruit => `
           <fruit-card
+            fruit-id="${fruit.id}"
             name="${fruit.nombre}"
             price="${fruit.precio}"
             image="${fruit.imagen}"
